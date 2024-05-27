@@ -23,7 +23,7 @@ class Lesson(models.Model):
     preview = models.ImageField(upload_to="materials/lesson_previews/", **NULLABLE, verbose_name=_("preview"),
                                 help_text=_("indicate a preview"))
     url = models.TextField()
-    course = models.ForeignKey("")
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name=_("course"))
 
     class Meta:
         verbose_name = _("lesson")
