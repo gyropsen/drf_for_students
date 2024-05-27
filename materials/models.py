@@ -32,7 +32,7 @@ class Lesson(models.Model):
         verbose_name=_("preview"),
         help_text=_("indicate a preview")
     )
-    url = models.TextField(**NULLABLE, verbose_name=_("url"))
+    url = models.URLField(**NULLABLE, verbose_name=_("url"))
     course = models.ForeignKey(Course, on_delete=models.CASCADE, **NULLABLE, verbose_name=_("course"))
 
     class Meta:
