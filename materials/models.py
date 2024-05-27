@@ -6,10 +6,15 @@ NULLABLE = {"blank": True, "null": True}
 
 class Course(models.Model):
     name = models.CharField(max_length=128, verbose_name=_("name"))
-    preview = models.ImageField(upload_to="materials/course_previews/", **NULLABLE, verbose_name=_("preview"),
-                                help_text=_("indicate a preview"))
-    description = models.TextField(**NULLABLE, verbose_name=_("description"),
-                                   help_text=_("please provide a description"))
+    preview = models.ImageField(
+        upload_to="materials/course_previews/",
+        **NULLABLE,
+        verbose_name=_("preview"),
+        help_text=_("indicate a preview")
+    )
+    description = models.TextField(
+        **NULLABLE, verbose_name=_("description"), help_text=_("please provide a description")
+    )
 
     class Meta:
         verbose_name = _("course")
@@ -18,12 +23,17 @@ class Course(models.Model):
 
 class Lesson(models.Model):
     name = models.CharField(max_length=128, verbose_name=_("name"))
-    description = models.TextField(**NULLABLE, verbose_name=_("description"),
-                                   help_text=_("please provide a description"))
-    preview = models.ImageField(upload_to="materials/lesson_previews/", **NULLABLE, verbose_name=_("preview"),
-                                help_text=_("indicate a preview"))
-    url = models.TextField()
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name=_("course"))
+    description = models.TextField(
+        **NULLABLE, verbose_name=_("description"), help_text=_("please provide a description")
+    )
+    preview = models.ImageField(
+        upload_to="materials/lesson_previews/",
+        **NULLABLE,
+        verbose_name=_("preview"),
+        help_text=_("indicate a preview")
+    )
+    url = models.TextField(**NULLABLE, verbose_name=_("url"))
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, **NULLABLE, verbose_name=_("course"))
 
     class Meta:
         verbose_name = _("lesson")
