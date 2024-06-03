@@ -5,7 +5,6 @@ from users.models import Payment, User
 
 
 class Command(BaseCommand):
-    help = "Runs APScheduler."
 
     def handle(self, *args, **options):
         user = User.objects.create(
