@@ -11,7 +11,6 @@ from users.serializers import UserSerializer, PaymentSerializer, UserDetailSeria
 
 
 # User
-# # Create
 # # # viewsets
 
 
