@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from django.utils.translation import gettext_lazy as _
 
 from materials.models import Course, Lesson, Subscription
+from materials.paginators import CustomPagination
 from materials.permissions import IsModerator, IsOwner
 from materials import serializers
 
@@ -14,8 +15,10 @@ from materials import serializers
 # # # viewsets
 
 class CourseViewSet(ModelViewSet):
-    queryset = Course.objects.all()
+    queryset = Course.objects.all().order_by("pk")
     serializer_class = serializers.CourseSerializer
+    pagination_class = CustomPagination
+    # paginator = self.django_paginator_class(queryset, page_size)
 
     def get_serializer_class(self):
         if self.action == "retrieve":
@@ -62,8 +65,9 @@ class LessonCreateAPIView(generics.CreateAPIView):
 
 # # # List
 class LessonListAPIView(generics.ListAPIView):
-    queryset = Lesson.objects.all()
+    queryset = Lesson.objects.all().order_by("pk")
     serializer_class = serializers.LessonSerializer
+    pagination_class = CustomPagination
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -129,7 +133,6 @@ class SubscriptionCreateDestroyAPIView(generics.CreateAPIView):
             stat = status.HTTP_201_CREATED
         return message, stat
 
-
-class SubscriptionListAPIView(generics.ListAPIView):
-    queryset = Subscription.objects.all()
-    serializer_class = serializers.SubscriptionSerializer
+# class SubscriptionListAPIView(generics.ListAPIView):
+#     queryset = Subscription.objects.all()
+#     serializer_class = serializers.SubscriptionSerializer

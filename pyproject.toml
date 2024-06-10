@@ -17,6 +17,7 @@ pytils = "^0.4.1"
 django-phonenumber-field = {extras = ["phonenumberslite"], version = "^7.3.0"}
 django-filter = "^24.2"
 djangorestframework-simplejwt = "^5.3.1"
+coverage = "^7.5.3"
 
 
 
