@@ -22,3 +22,9 @@ class UserDetailSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = "__all__"
+
+
+class UserShortSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        exclude = ('password', 'last_name')
