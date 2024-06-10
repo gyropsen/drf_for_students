@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path
 from rest_framework.routers import SimpleRouter
 
 from materials.apps import MaterialsConfig
@@ -8,12 +8,10 @@ from materials.views import (CourseViewSet, LessonCreateAPIView, LessonDestroyAP
 app_name = MaterialsConfig.name
 
 router = SimpleRouter()
-router.register("", CourseViewSet)
+# Course
+router.register("course", CourseViewSet, basename='course')
 
 urlpatterns = [
-    # Course
-    path("courses/", include(router.urls)),
-
     # Lesson
     path("lessons/", LessonListAPIView.as_view(), name="lessons_list"),
     path("lessons/create/", LessonCreateAPIView.as_view(), name="lessons_create"),
@@ -24,4 +22,4 @@ urlpatterns = [
     # Subscription
     path("subscription_manage/", SubscriptionCreateDestroyAPIView.as_view(), name="subscription_manage"),
     # path("subscription_list/", SubscriptionListAPIView.as_view(), name="subscription_list"),
-]
+] + router.urls

@@ -4,6 +4,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework.response import Response
 from django.utils.translation import gettext_lazy as _
+from django.shortcuts import get_object_or_404
+from rest_framework.exceptions import PermissionDenied
 
 from materials.models import Course, Lesson, Subscription
 from materials.paginators import CustomPagination
@@ -18,6 +20,7 @@ class CourseViewSet(ModelViewSet):
     queryset = Course.objects.all().order_by("pk")
     serializer_class = serializers.CourseSerializer
     pagination_class = CustomPagination
+
     # paginator = self.django_paginator_class(queryset, page_size)
 
     def get_serializer_class(self):

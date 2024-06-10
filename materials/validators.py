@@ -9,6 +9,7 @@ class URLCorrectValidator:
 
     def __call__(self, value):
         url = value.get(self.field)
-        if not url.lower().startswith(self.url):
-            message = _(f"The link {url} is incorrect. The link should start with {self.url}")
-            raise serializers.ValidationError(message)
+        if url:
+            if not url.lower().startswith(self.url):
+                message = _(f"The link {url} is incorrect. The link should start with {self.url}")
+                raise serializers.ValidationError(message)
