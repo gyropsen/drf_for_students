@@ -1,20 +1,19 @@
-from rest_framework import generics
-from rest_framework.viewsets import ModelViewSet
-from rest_framework.permissions import IsAuthenticated
-from rest_framework import status
-from rest_framework.response import Response
-from django.utils.translation import gettext_lazy as _
 from django.shortcuts import get_object_or_404
+from django.utils.translation import gettext_lazy as _
+from rest_framework import generics, status
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet
 
+from materials import serializers
 from materials.models import Course, Lesson, Subscription
 from materials.paginators import CustomPagination
 from materials.permissions import IsModerator, IsOwner
-from materials import serializers
-
 
 # Course
 # # # viewsets
+
 
 class CourseViewSet(ModelViewSet):
     queryset = Course.objects.all().order_by("pk")
@@ -32,11 +31,14 @@ class CourseViewSet(ModelViewSet):
         """
         Instantiates and returns the create of permissions that this view requires.
         """
-        if self.action == 'create':
-            permission_classes = (IsAuthenticated, ~IsModerator,)
-        elif self.action == 'destroy':
+        if self.action == "create":
+            permission_classes = (
+                IsAuthenticated,
+                ~IsModerator,
+            )
+        elif self.action == "destroy":
             permission_classes = (IsAuthenticated, IsOwner)
-        elif self.action in ['update', 'retrieve', 'partial_update']:
+        elif self.action in ["update", "retrieve", "partial_update"]:
             permission_classes = (IsAuthenticated, IsModerator | IsOwner)
         else:
             permission_classes = (IsAuthenticated,)
@@ -48,7 +50,7 @@ class CourseViewSet(ModelViewSet):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        if self.request.user.groups.filter(name='moderator').exists():
+        if self.request.user.groups.filter(name="moderator").exists():
             return queryset
         return queryset.filter(owner=self.request.user)
 
@@ -135,6 +137,7 @@ class SubscriptionCreateDestroyAPIView(generics.CreateAPIView):
             message["success"] = _("subscription created")
             stat = status.HTTP_201_CREATED
         return message, stat
+
 
 # class SubscriptionListAPIView(generics.ListAPIView):
 #     queryset = Subscription.objects.all()

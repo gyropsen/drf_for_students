@@ -9,7 +9,7 @@ app_name = MaterialsConfig.name
 
 router = SimpleRouter()
 # Course
-router.register("course", CourseViewSet, basename='course')
+router.register("course", CourseViewSet, basename="course")
 
 urlpatterns = [
     # Lesson
@@ -18,7 +18,6 @@ urlpatterns = [
     path("lessons/<int:pk>/update/", LessonUpdateAPIView.as_view(), name="lessons_update"),
     path("lessons/<int:pk>/delete/", LessonDestroyAPIView.as_view(), name="lessons_delete"),
     path("lessons/<int:pk>/", LessonRetrieveAPIView.as_view(), name="lessons_retrieve"),
-
     # Subscription
     path("subscription_manage/", SubscriptionCreateDestroyAPIView.as_view(), name="subscription_manage"),
     # path("subscription_list/", SubscriptionListAPIView.as_view(), name="subscription_list"),

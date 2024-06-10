@@ -31,7 +31,9 @@ class Payment(models.Model):
         (_("TRAN"), _("transfer to account")),
     ]
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, **NULLABLE, related_name="payments", verbose_name=_("user"))
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, **NULLABLE, related_name="payments", verbose_name=_("user")
+    )
     date_payment = models.DateField(auto_now_add=True, verbose_name=_("date_payment"))
     paid_course = models.ForeignKey("materials.Course", on_delete=models.CASCADE, **NULLABLE, verbose_name=_("course"))
     paid_lesson = models.ForeignKey("materials.Lesson", on_delete=models.CASCADE, **NULLABLE, verbose_name=_("lesson"))
