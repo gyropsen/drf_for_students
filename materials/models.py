@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+
 from config import settings
 
 NULLABLE = {"blank": True, "null": True}
@@ -38,8 +39,9 @@ class Lesson(models.Model):
         help_text=_("indicate a preview")
     )
     url = models.URLField(**NULLABLE, verbose_name=_("url"))
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, **NULLABLE, verbose_name=_("course"),
-                               related_name="lessons")
+    course = models.ForeignKey(
+        Course, on_delete=models.CASCADE, **NULLABLE, verbose_name=_("course"), related_name="lessons"
+    )
 
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, **NULLABLE, verbose_name=_("owner"))
 
