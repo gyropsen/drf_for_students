@@ -8,11 +8,11 @@ from rest_framework.viewsets import ModelViewSet
 from users.models import Payment, User
 from users.permissions import IsSelf
 from users.serializers import PaymentSerializer, UserDetailSerializer, UserSerializer, UserShortSerializer
+from users.services import convert_rub_to_usd, create_stripe_price, create_stripe_session
+
 
 # User
 # # # viewsets
-
-
 class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -49,22 +49,6 @@ class UserViewSet(ModelViewSet):
         raise PermissionDenied
 
 
-# # # generics
-# from rest_framework.generics import CreateAPIView
-
-
-# class UserCreateAPIView(CreateAPIView):
-#     queryset = User.objects.all()
-#     serializer_class = UserSerializer
-#     permission_classes = (AllowAny, )
-
-#
-#     def perform_create(self, serializer):
-#         new_user = serializer.save(is_active=True)
-#         new_user.set_password(new_user.password)
-#         super().perform_create(new_user)
-
-
 # Payment
 class PaymentViewSet(ModelViewSet):
     queryset = Payment.objects.all()
@@ -72,3 +56,12 @@ class PaymentViewSet(ModelViewSet):
     filter_backends = (filters.DjangoFilterBackend, OrderingFilter)
     filterset_fields = ("paid_course", "paid_lesson", "method")
     ordering_fields = ("date_payment",)
+
+    def perform_create(self, serializer):
+        payment = serializer.save(user=self.request.user)
+        amount_in_dollar = convert_rub_to_usd(payment.amount)
+        price = create_stripe_price(amount_in_dollar)
+        session_id, url = create_stripe_session(price)
+        payment.session_id = session_id
+        payment.url = url
+        super().perform_create(payment)
