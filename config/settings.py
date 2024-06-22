@@ -39,11 +39,14 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
     "drf_yasg",
     "phonenumber_field",
     "django_filters",
     "rest_framework",
     "rest_framework_simplejwt",
+    "django_celery_beat",
+
     "users",
     "materials",
 ]
@@ -153,3 +156,32 @@ SIMPLE_JWT = {
 
 STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")
 APILAYER_API_KEY = os.getenv("APILAYER_API_KEY")
+
+# Celery Configuration Options
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+
+CELERY_BROKER_URL = os.getenv("REDIS_LOCATION")
+CELERY_RESULT_BACKEND = os.getenv("REDIS_LOCATION")
+
+CELERY_BEAT_SCHEDULE = {
+    'check_active': {
+        'task': 'users.tasks.check_active',  # Путь к задаче
+        'schedule': timedelta(seconds=10),  # Расписание выполнения задачи (например, каждый день)
+    },
+}
+
+# Email Configuration Options
+EMAIL_HOST = "smtp.mail.ru"
+EMAIL_PORT = 2525
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+EMAIL_USE_SSL = False
+EMAIL_USE_TLS = True
+
+SERVER_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+# celery -A config worker -l INFO
+# celery -A config beat -l info -S django
