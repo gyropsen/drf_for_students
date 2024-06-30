@@ -39,14 +39,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     "drf_yasg",
     "phonenumber_field",
     "django_filters",
     "rest_framework",
     "rest_framework_simplejwt",
     "django_celery_beat",
-
     "users",
     "materials",
 ]
@@ -166,9 +164,9 @@ CELERY_BROKER_URL = os.getenv("REDIS_LOCATION")
 CELERY_RESULT_BACKEND = os.getenv("REDIS_LOCATION")
 
 CELERY_BEAT_SCHEDULE = {
-    'check_active': {
-        'task': 'users.tasks.check_active',  # Путь к задаче
-        'schedule': timedelta(seconds=10),  # Расписание выполнения задачи (например, каждый день)
+    "check_active": {
+        "task": "users.tasks.check_active",  # Путь к задаче
+        "schedule": timedelta(seconds=10),  # Расписание выполнения задачи (например, каждый день)
     },
 }
 

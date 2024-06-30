@@ -1,6 +1,7 @@
-import stripe
 import requests
-from config.settings import STRIPE_API_KEY, APILAYER_API_KEY
+import stripe
+
+from config.settings import APILAYER_API_KEY, STRIPE_API_KEY
 
 # This is your test secret API key.
 stripe.api_key = STRIPE_API_KEY
@@ -9,7 +10,7 @@ stripe.api_key = STRIPE_API_KEY
 def convert_rub_to_usd(amount):
     """Конвертировать рубли в доллары"""
     url = "https://api.apilayer.com/exchangerates_data/latest?base=USD"
-    response = requests.get(url, headers={'apikey': APILAYER_API_KEY})
+    response = requests.get(url, headers={"apikey": APILAYER_API_KEY})
     if response.status_code == 200:
         rate = response.json()["rates"]["RUB"]
         return int(amount / rate)

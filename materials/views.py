@@ -10,7 +10,6 @@ from materials.paginators import CustomPagination
 from materials.permissions import IsModerator, IsOwner
 from materials.tasks import send_update_course
 
-
 # Course
 # # # viewsets
 

@@ -1,7 +1,7 @@
+from django.contrib.auth.models import Group
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
-from django.contrib.auth.models import Group
 
 from materials.models import Course, Lesson, Subscription
 from users.models import User
@@ -41,14 +41,13 @@ class CourseTestCase(APITestCase):
         Тестирование подписки и отписки на курс
         """
         url = reverse("materials:subscription_manage")
-        data = {"course_id": self.test_course.pk,
-                "name": "test_subscription"}
+        data = {"course_id": self.test_course.pk, "name": "test_subscription"}
 
         # Подписка
         response = self.client.post(url, data)
         subscription = response.json()
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(subscription['success'], 'subscription created')
+        self.assertEqual(subscription["success"], "subscription created")
 
         # Отписка
         response = self.client.post(url, data)

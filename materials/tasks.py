@@ -1,8 +1,9 @@
-from django.core.mail import send_mail
 from celery import shared_task
-from config import settings
-from materials.models import Subscription, Course
+from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
+
+from config import settings
+from materials.models import Course, Subscription
 
 
 @shared_task
