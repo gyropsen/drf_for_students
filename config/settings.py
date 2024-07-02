@@ -28,7 +28,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -39,14 +39,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     "drf_yasg",
     "phonenumber_field",
     "django_filters",
     "rest_framework",
     "rest_framework_simplejwt",
     "django_celery_beat",
-
     "users",
     "materials",
 ]
@@ -87,11 +85,11 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "drf_for_students",  # Название БД
-        "USER": os.getenv("USER_NAME"),  # Пользователь для подключения
-        "PASSWORD": os.getenv("PASSWORD"),  # Пароль для этого пользователя
-        "HOST": os.getenv("HOST"),  # Адрес, на котором развернут сервер БД
-        "PORT": os.getenv("PORT"),  # Порт, на котором работает сервер БД
+        "NAME": os.getenv("POSTGRES_DB"),  # Название БД
+        "USER": os.getenv("POSTGRES_USER"),  # Пользователь для подключения
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),  # Пароль для этого пользователя
+        "HOST": os.getenv("POSTGRES_HOST"),  # Адрес, на котором развернут сервер БД
+        "PORT": os.getenv("POSTGRES_PORT"),  # Порт, на котором работает сервер БД
     }
 }
 
@@ -166,9 +164,9 @@ CELERY_BROKER_URL = os.getenv("REDIS_LOCATION")
 CELERY_RESULT_BACKEND = os.getenv("REDIS_LOCATION")
 
 CELERY_BEAT_SCHEDULE = {
-    'check_active': {
-        'task': 'users.tasks.check_active',  # Путь к задаче
-        'schedule': timedelta(seconds=10),  # Расписание выполнения задачи (например, каждый день)
+    "check_active": {
+        "task": "users.tasks.check_active",  # Путь к задаче
+        "schedule": timedelta(seconds=10),  # Расписание выполнения задачи (например, каждый день)
     },
 }
 
